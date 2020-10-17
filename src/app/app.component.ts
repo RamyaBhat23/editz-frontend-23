@@ -34,68 +34,130 @@ export class AppComponent implements OnInit {
 
   }
 
-  upload(file:FileList)
-  {
-    this.fileupload=file.item(0);
-    var reader=new FileReader();
+  upload(event) { // called each time file input changes
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
 
-    reader.onload=(event:any)=>{
-      this.imageurl=event.target.result;
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.imageurl = event.target.result;
+        console.log(this.imageurl);
+
+        this.img=new Konva.Image({
+          image:this.imageobject,
+          x:0+this.imageobject.width/2,
+          y:0+this.imageobject.height/2,
+          offset:{
+            x:this.imageobject.width/2,
+            y:this.imageobject.height/2
+          },
+          width:this.imageobject.width,
+          height:this.imageobject.height,
+          draggable:false
+        });
+  
+        this.stage=new Konva.Stage({
+          x:0+this.imageobject.width/2,
+          y:0+this.imageobject.height/2,
+          offset:{
+            x:this.imageobject.width/2,
+            y:this.imageobject.height/2
+          },
+          container:'container',
+          width:this.img.getAttr('width'),
+          height:this.img.getAttr('height')
+        });
+  
+        this.marginset=document.getElementsByClassName("konvajs-content")[0];
+        this.marginset.style["margin"]="auto";
+  
+        this.imgLayer=new Konva.Layer();
+        this.stage.add(this.imgLayer);
+        this.imgLayer.setZIndex(0);
+        this.imgLayer.add(this.img);
+        this.imgLayer.batchDraw();
+  
+        this.img.on('dbclick',event=>{
+          var tr=new Konva.Transformer();
+          this.imgLayer.add(tr);
+          tr.attachTo(this.img);
+          this.img.setAttr('draggable',true);
+          this.imgLayer.batchDraw();
+          this.img.on('click',event=>{
+            tr.detach();
+            this.img.setAttr('draggable',false);
+            this.imgLayer.batchDraw();
+          });
+        });
+      };
+      this.imageobject.src=this.imageurl;
+      }
     }
 
-    reader.readAsDataURL(file[0]);
 
-    this.imageobject.onload=()=>
-    {
-      this.img=new Konva.Image({
-        image:this.imageobject,
-        x:0+this.imageobject.width/2,
-        y:0+this.imageobject.height/2,
-        offset:{
-          x:this.imageobject.width/2,
-          y:this.imageobject.height/2
-        },
-        width:this.imageobject.width,
-        height:this.imageobject.height,
-        draggable:false
-      });
+  // upload(file:FileList)
+  // {
+  //   this.fileupload=file.item(0);
+  //   var reader=new FileReader();
 
-      this.stage=new Konva.Stage({
-        x:0+this.imageobject.width/2,
-        y:0+this.imageobject.height/2,
-        offset:{
-          x:this.imageobject.width/2,
-          y:this.imageobject.height/2
-        },
-        container:'container',
-        width:this.img.getAttr('width'),
-        height:this.img.getAttr('height')
-      });
+  //   reader.onload=(event:any)=>{
+  //     this.imageurl=event.target.result;
+  //   }
 
-      this.marginset=document.getElementsByClassName("konvajs-content")[0];
-      this.marginset.style["margin"]="auto";
+  //   reader.readAsDataURL(file[0]);
 
-      this.imgLayer=new Konva.Layer();
-      this.stage.add(this.imgLayer);
-      this.imgLayer.setZIndex(0);
-      this.imgLayer.add(this.img);
-      this.imgLayer.batchDraw();
+  //   this.imageobject.onload=()=>
+  //   {
+  //     this.img=new Konva.Image({
+  //       image:this.imageobject,
+  //       x:0+this.imageobject.width/2,
+  //       y:0+this.imageobject.height/2,
+  //       offset:{
+  //         x:this.imageobject.width/2,
+  //         y:this.imageobject.height/2
+  //       },
+  //       width:this.imageobject.width,
+  //       height:this.imageobject.height,
+  //       draggable:false
+  //     });
 
-      this.img.on('dbclick',event=>{
-        var tr=new Konva.Transformer();
-        this.imgLayer.add(tr);
-        tr.attachTo(this.img);
-        this.img.setAttr('draggable',true);
-        this.imgLayer.batchDraw();
-        this.img.on('click',event=>{
-          tr.detach();
-          this.img.setAttr('draggable',false);
-          this.imgLayer.batchDraw();
-        });
-      });
-    };
-    this.imageobject.src='/assets/images/'+file.item(0).name;
-  }
+  //     this.stage=new Konva.Stage({
+  //       x:0+this.imageobject.width/2,
+  //       y:0+this.imageobject.height/2,
+  //       offset:{
+  //         x:this.imageobject.width/2,
+  //         y:this.imageobject.height/2
+  //       },
+  //       container:'container',
+  //       width:this.img.getAttr('width'),
+  //       height:this.img.getAttr('height')
+  //     });
+
+  //     this.marginset=document.getElementsByClassName("konvajs-content")[0];
+  //     this.marginset.style["margin"]="auto";
+
+  //     this.imgLayer=new Konva.Layer();
+  //     this.stage.add(this.imgLayer);
+  //     this.imgLayer.setZIndex(0);
+  //     this.imgLayer.add(this.img);
+  //     this.imgLayer.batchDraw();
+
+  //     this.img.on('dbclick',event=>{
+  //       var tr=new Konva.Transformer();
+  //       this.imgLayer.add(tr);
+  //       tr.attachTo(this.img);
+  //       this.img.setAttr('draggable',true);
+  //       this.imgLayer.batchDraw();
+  //       this.img.on('click',event=>{
+  //         tr.detach();
+  //         this.img.setAttr('draggable',false);
+  //         this.imgLayer.batchDraw();
+  //       });
+  //     });
+  //   };
+  //   this.imageobject.src='/assets/images/'+file.item(0).name;
+  // }
 
   save(){
     document.getElementById('save').addEventListener(

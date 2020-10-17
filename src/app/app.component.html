@@ -1,5 +1,6 @@
 <div class="optionbar">
-    <input type="file" (change)="upload($event.target.files)" value="upload" name="upload">
+    <input type="file" (change)="upload($event)" value="upload" name="upload">
+    <!-- <input type="file" (change)="upload($event.target.files)" value="upload" name="upload"> -->
     <!--making use of shape component-->
     <app-shape></app-shape>
     <button class="btn optionbutton btn-success" (click)="flipx()">Flip-X</button>
