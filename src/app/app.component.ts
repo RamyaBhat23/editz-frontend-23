@@ -43,14 +43,13 @@ export class AppComponent implements OnInit {
 
       reader.onload = (event) => { // called once readAsDataURL is completed
         this.imageurl = event.target.result;
-        console.log(this.imageurl);
     }
 
     
 
     Konva.Image.fromURL(this.imageurl, function(image){
       // image is Konva.Image instance
-      
+      console.log(this.image);
       this.imgWidth = image.getAttribute('width');
       this.imgHeight = image.getAttribute('height');
       this.stage=new Konva.Stage({
