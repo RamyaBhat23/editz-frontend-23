@@ -45,24 +45,24 @@ export class AppComponent implements OnInit {
         console.log(this.imageurl);
 
         this.img=new Konva.Image({
-          image:this.imageobject,
-          x:0+this.imageobject.width/2,
-          y:0+this.imageobject.height/2,
+          image:this.imageurl,
+          x:0+this.imageurl.width/2,
+          y:0+this.imageurl.height/2,
           offset:{
-            x:this.imageobject.width/2,
-            y:this.imageobject.height/2
+            x:this.imageurl.width/2,
+            y:this.imageurl.height/2
           },
-          width:this.imageobject.width,
-          height:this.imageobject.height,
+          width:this.imageurl.width,
+          height:this.imageurl.height,
           draggable:false
         });
   
         this.stage=new Konva.Stage({
-          x:0+this.imageobject.width/2,
-          y:0+this.imageobject.height/2,
+          x:0+this.imageurl.width/2,
+          y:0+this.imageurl.height/2,
           offset:{
-            x:this.imageobject.width/2,
-            y:this.imageobject.height/2
+            x:this.imageurl.width/2,
+            y:this.imageurl.height/2
           },
           container:'container',
           width:this.img.getAttr('width'),
@@ -91,7 +91,6 @@ export class AppComponent implements OnInit {
           });
         });
       };
-      this.imageobject.src=this.imageurl;
       }
     }
 
