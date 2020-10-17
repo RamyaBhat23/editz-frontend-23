@@ -26,18 +26,13 @@ export class AppComponent implements OnInit {
   click=1;
   shapeArray:any=[];
   transformers: Konva.Transformer[] = [];
+  imgWidth;
+  imgHeight;
 
   constructor(
   ) { }
 
   ngOnInit() {
-    this.stage=new Konva.Stage({
-            x:0,
-            y:0,
-            container:'container',
-            width:this.img.getAttr('width'),
-            height:this.img.getAttr('height')
-          });
   }
 
   upload(event) { // called each time file input changes
@@ -50,10 +45,24 @@ export class AppComponent implements OnInit {
         this.imageurl = event.target.result;
         console.log(this.imageurl);
     }
+
+    
+
     Konva.Image.fromURL(this.imageurl, function(image){
       // image is Konva.Image instance
-      this.imglayer.layer.add(image);
-      this.imglayer.draw();
+      
+      this.imgWidth = image.getAttribute('width');
+      this.imgHeight = image.getAttribute('height');
+      this.stage=new Konva.Stage({
+        x:0,
+        y:0,
+        container:'container',
+        width:this.imgWidth,
+        height:this.imgHeight
+      });
+      this.imgLayer.add(image);
+      this.imgLayer.draw();
+      this.stage.add(this.imgLayer);
     });
   }
   }
