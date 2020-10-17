@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
 
     Konva.Image.fromURL(this.imageurl, function(image){
       // image is Konva.Image instance
-      console.log(this.image);
+      console.log(image);
       this.imgWidth = image.getAttribute('width');
       this.imgHeight = image.getAttribute('height');
       this.stage=new Konva.Stage({
