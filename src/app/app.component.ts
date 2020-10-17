@@ -31,7 +31,13 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.stage=new Konva.Stage({
+            x:0,
+            y:0,
+            container:'container',
+            width:this.img.getAttr('width'),
+            height:this.img.getAttr('height')
+          });
   }
 
   upload(event) { // called each time file input changes
@@ -43,8 +49,12 @@ export class AppComponent implements OnInit {
       reader.onload = (event) => { // called once readAsDataURL is completed
         this.imageurl = event.target.result;
         console.log(this.imageurl);
-
     }
+    Konva.Image.fromURL(this.imageurl, function(image){
+      // image is Konva.Image instance
+      this.imglayer.layer.add(image);
+      this.imglayer.draw();
+    });
   }
   }
 
@@ -75,18 +85,7 @@ export class AppComponent implements OnInit {
   //       draggable:false
   //     });
 
-  //     this.stage=new Konva.Stage({
-  //       x:0+this.imageobject.width/2,
-  //       y:0+this.imageobject.height/2,
-  //       offset:{
-  //         x:this.imageobject.width/2,
-  //         y:this.imageobject.height/2
-  //       },
-  //       container:'container',
-  //       width:this.img.getAttr('width'),
-  //       height:this.img.getAttr('height')
-  //     });
-
+  //     
   //     this.marginset=document.getElementsByClassName("konvajs-content")[0];
   //     this.marginset.style["margin"]="auto";
 
