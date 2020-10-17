@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
         });
       });
     };
-    this.imageobject.src='../../dist/assets/images/'+file.item(0).name;
+    this.imageobject.src='../../dist/ImageEditor/assets/images/'+file.item(0).name;
   }
 
   save(){
