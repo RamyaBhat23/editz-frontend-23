@@ -7,5 +7,4 @@ app.get('/*', function(req, res) {
 });
 app.listen(process.env.PORT || 8080, () => {
     console.log("http://localhost:8080");
-    //https://localhost:8080 doesn't work
 });
