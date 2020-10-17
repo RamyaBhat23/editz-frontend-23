@@ -44,55 +44,9 @@ export class AppComponent implements OnInit {
         this.imageurl = event.target.result;
         console.log(this.imageurl);
 
-        this.img=new Konva.Image({
-          image:this.imageurl,
-          x:0+this.imageurl.width/2,
-          y:0+this.imageurl.height/2,
-          offset:{
-            x:this.imageurl.width/2,
-            y:this.imageurl.height/2
-          },
-          width:this.imageurl.width,
-          height:this.imageurl.height,
-          draggable:false
-        });
-  
-        this.stage=new Konva.Stage({
-          x:0+this.imageurl.width/2,
-          y:0+this.imageurl.height/2,
-          offset:{
-            x:this.imageurl.width/2,
-            y:this.imageurl.height/2
-          },
-          container:'container',
-          width:this.img.getAttr('width'),
-          height:this.img.getAttr('height')
-        });
-  
-        this.marginset=document.getElementsByClassName("konvajs-content")[0];
-        this.marginset.style["margin"]="auto";
-  
-        this.imgLayer=new Konva.Layer();
-        this.stage.add(this.imgLayer);
-        this.imgLayer.setZIndex(0);
-        this.imgLayer.add(this.img);
-        this.imgLayer.batchDraw();
-  
-        this.img.on('dbclick',event=>{
-          var tr=new Konva.Transformer();
-          this.imgLayer.add(tr);
-          tr.attachTo(this.img);
-          this.img.setAttr('draggable',true);
-          this.imgLayer.batchDraw();
-          this.img.on('click',event=>{
-            tr.detach();
-            this.img.setAttr('draggable',false);
-            this.imgLayer.batchDraw();
-          });
-        });
-      };
-      }
     }
+  }
+  }
 
 
   // upload(file:FileList)
