@@ -1,0 +1,21 @@
+<div class="optionbar">
+    <input type="file" (change)="upload($event.target.files)" value="upload" name="upload">
+    <!--making use of shape component-->
+    <app-shape></app-shape>
+    <button class="btn optionbutton btn-success" (click)="flipx()">Flip-X</button>
+    <button class="btn optionbutton btn-success" (click)="flipy()">Flip-Y</button>
+    <button class="btn optionbutton btn-success" (click)="showRotation()">Rotate</button>
+    <button class="btn optionbutton btn-success" (click)="showColors()">Color</button>
+    <div class="rotationbuttons" id="rb">
+        <input type="range" name="range" id="range" min="0" max="360" value="0" class="slider">
+        <input type="text" id="rotationvalue" size="1" value="0" (input)="manualRotation()" style="text-align: center;">
+    </div>
+    <div id="rgb" style="color: white; font-family: cursive;">Red:
+        <input id="red" type="range" min="0" max="255" step="1" value="0"> Green:
+        <input id="green" type="range" min="0" max="255" step="1" value="0"> Blue:
+        <input id="blue" type="range" min="0" max="255" step="1" value="0">
+    </div>
+    <button id="save" class="btn optionbutton btn-success" (click)="save()">Save</button>
+</div>
+
+<div id="container"></div>

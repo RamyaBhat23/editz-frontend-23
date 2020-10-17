@@ -1,0 +1,46 @@
+.optionbutton {
+    font-size: 14pt !important;
+    font-family: cursive !important;
+    color: white !important;
+    margin-right: 3px !important;
+}
+
+.optionbutton:hover {
+    /* active - on click effect (temporary effect). focus is permanent effect on click */
+    background-color: rgb(41, 100, 34) !important;
+}
+
+.optionbutton:focus {
+    background-color: rgb(41, 100, 34) !important;
+}
+
+.optionbar {
+    background-color: rgb(3, 46, 6) !important;
+    width: 100vw !important;
+    border-bottom: 2px solid rgb(19, 150, 19) !important;
+    padding: 10px 20px !important;
+    /* set height using padding */
+}
+
+#container {
+    padding: 0;
+    margin: auto;
+    position: absolute;
+    top: 120px;
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    border: 1px solid rgb(3, 46, 6);
+    background-color: rgba(62, 185, 57, 0.144);
+}
+
+.rotationbuttons {
+    display: none;
+}
+
+#rgb {
+    display: none;
+}
