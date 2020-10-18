@@ -33,13 +33,6 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.stage=new Konva.Stage({
-      x:0,
-      y:0,
-      container:'container',
-      width:window.innerWidth,
-      height:window.innerHeight
-    });
   }
 
   upload(event) { // called each time file input changes
@@ -52,19 +45,47 @@ export class AppComponent implements OnInit {
         this.imageurl = event.target.result;
     }
 
-    Konva.Image.fromURL(this.imageurl, function(image){
-      // image is Konva.Image instance
-      console.log("hi"+image.name);
-      this.imgWidth = image.getAttribute('width');
-      this.imgHeight = image.getAttribute('height');
-     
-      this.imgLayer.add(image);
-      this.imgLayer.draw();
-      this.stage.add(this.imgLayer);
-    });
-  }
-  }
+    this.imageobject.onload=()=>
+    {
+      this.img=new Konva.Image({
+        image:this.imageobject,
+        x:0+this.imageobject.width/2,
+        y:0+this.imageobject.height/2,
+        offset:{
+          x:this.imageobject.width/2,
+          y:this.imageobject.height/2
+        },
+        width:this.imageobject.width,
+        height:this.imageobject.height,
+        draggable:false
+      });
 
+      
+      this.marginset=document.getElementsByClassName("konvajs-content")[0];
+      this.marginset.style["margin"]="auto";
+
+      this.imgLayer=new Konva.Layer();
+      this.stage.add(this.imgLayer);
+      this.imgLayer.setZIndex(0);
+      this.imgLayer.add(this.img);
+      this.imgLayer.batchDraw();
+
+      this.img.on('dbclick',event=>{
+        var tr=new Konva.Transformer();
+        this.imgLayer.add(tr);
+        tr.attachTo(this.img);
+        this.img.setAttr('draggable',true);
+        this.imgLayer.batchDraw();
+        this.img.on('click',event=>{
+          tr.detach();
+          this.img.setAttr('draggable',false);
+          this.imgLayer.batchDraw();
+        });
+      });
+    };
+    this.imageobject.setAttribute('[src]', this.imageurl);
+  }
+  }
 
   // upload(file:FileList)
   // {
