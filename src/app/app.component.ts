@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
         });
       });
     };
-    this.imageobject.setAttribute('[src]', this.imageurl);
+    this.imageobject.setAttribute('src', this.imageurl);
   }
   }
 
