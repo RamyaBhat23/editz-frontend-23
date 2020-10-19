@@ -100,13 +100,11 @@ export class AppComponent implements OnInit {
     shape.on('click',event=>
     {
       let index=this.shapeArray.indexOf(shape);
-      console.log("Index:"+ index);
 
       if(index!=-1){
         this.transformers[this.shapeArray[index]._id].detach();
         delete this.shapeArray[index];
         index=-1;
-        console.log("deselected");
         this.imgLayer.batchDraw();
         this.stage.batchDraw();
       }
@@ -115,15 +113,12 @@ export class AppComponent implements OnInit {
         console.log("selected");
         this.imgLayer.add(tr);
         tr.attachTo(event.target);//shape also works
-        // console.log(event.target);
         this.transformers[event.target._id]=tr;
         this.imgLayer.batchDraw();
         this.stage.batchDraw();
         this.shapeArray.push(event.target);
-        console.log(shape);
         this.colorShape(shape);
         this.addDeleteListener();//if any error in colorShape() then this doesn't work
-        console.log("end");
       }
     });
   }
@@ -147,7 +142,6 @@ export class AppComponent implements OnInit {
     this.stage.clickStartShape.fill("white");
     this.imgLayer.batchDraw();
     var sliders=['red','green','blue'];
-    console.log("changing color");
     
     sliders.forEach(function(attr){
       var slider=<HTMLInputElement> document.getElementById(attr);
@@ -209,8 +203,8 @@ export class AppComponent implements OnInit {
     }
 
     else{
-        document.getElementById("rb").style.display="none";
-        this.rotationflag=1;
+      document.getElementById("rb").style.display="none";
+      this.rotationflag=1;
     }
   }
   
