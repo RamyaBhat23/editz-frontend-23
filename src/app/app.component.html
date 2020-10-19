@@ -1,6 +1,6 @@
 <div class="optionbar">
     <input type="file" (change)="upload($event)" value="upload" name="upload">
-    <!-- <input type="file" (change)="upload($event.target.files)" value="upload" name="upload"> -->
+
     <!--making use of shape component-->
     <app-shape></app-shape>
     <button class="btn optionbutton btn-success" (click)="flipx()">Flip-X</button>
@@ -16,7 +16,7 @@
         <input id="green" type="range" min="0" max="255" step="1" value="0"> Blue:
         <input id="blue" type="range" min="0" max="255" step="1" value="0">
     </div>
-    <button id="save" class="btn optionbutton btn-success" (click)="save()">Save</button>
+    <button class="btn optionbutton btn-success" (click)="save()">Save</button>
 </div>
 
 <div id="container"></div>

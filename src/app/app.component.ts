@@ -1,3 +1,4 @@
+import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 import { Component, OnInit } from '@angular/core';
 import Konva from 'konva';
 
@@ -10,12 +11,9 @@ import Konva from 'konva';
 export class AppComponent implements OnInit {
   title = 'ImageEditor';
   stage: Konva.Stage;
-  fileupload;
-  imageurl;
-  imageobject=new Image();
+  imageobject;
   img;
   imgLayer:Konva.Layer;
-  dataUrl;
   link;
   marginset;
   hflip:boolean=true;
@@ -26,8 +24,6 @@ export class AppComponent implements OnInit {
   click=1;
   shapeArray:any=[];
   transformers: Konva.Transformer[] = [];
-  imgWidth;
-  imgHeight;
 
   constructor(
   ) { }
@@ -37,16 +33,27 @@ export class AppComponent implements OnInit {
 
   upload(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      reader.onload = (event) => { // called once readAsDataURL is completed
-        this.imageurl = event.target.result;
+      var URL = window.webkitURL || window.URL;
+      var url = URL.createObjectURL(event.target.files[0]);
     }
 
-    this.imageobject.onload=()=>
-    {
+    this.imageobject = new Image();
+    this.imageobject.src = url;
+
+    this.imageobject.onload = ()=>{
+
+      this.stage = new Konva.Stage({
+        container: 'container',
+        x:0+this.imageobject.width/2,
+        y:0+this.imageobject.height/2,
+        offset:{
+          x:this.imageobject.width/2,
+          y:this.imageobject.height/2
+        },
+        width:this.imageobject.width,
+        height:this.imageobject.height,
+      });
+
       this.img=new Konva.Image({
         image:this.imageobject,
         x:0+this.imageobject.width/2,
@@ -60,100 +67,28 @@ export class AppComponent implements OnInit {
         draggable:false
       });
 
-      
       this.marginset=document.getElementsByClassName("konvajs-content")[0];
       this.marginset.style["margin"]="auto";
-
+      
       this.imgLayer=new Konva.Layer();
       this.stage.add(this.imgLayer);
       this.imgLayer.setZIndex(0);
       this.imgLayer.add(this.img);
       this.imgLayer.batchDraw();
-
-      this.img.on('dbclick',event=>{
-        var tr=new Konva.Transformer();
-        this.imgLayer.add(tr);
-        tr.attachTo(this.img);
-        this.img.setAttr('draggable',true);
-        this.imgLayer.batchDraw();
-        this.img.on('click',event=>{
-          tr.detach();
-          this.img.setAttr('draggable',false);
-          this.imgLayer.batchDraw();
-        });
-      });
-    };
-    this.imageobject.setAttribute('src', this.imageurl);
-  }
+    }    
   }
 
-  // upload(file:FileList)
-  // {
-  //   this.fileupload=file.item(0);
-  //   var reader=new FileReader();
-
-  //   reader.onload=(event:any)=>{
-  //     this.imageurl=event.target.result;
-  //   }
-
-  //   reader.readAsDataURL(file[0]);
-
-  //   this.imageobject.onload=()=>
-  //   {
-  //     this.img=new Konva.Image({
-  //       image:this.imageobject,
-  //       x:0+this.imageobject.width/2,
-  //       y:0+this.imageobject.height/2,
-  //       offset:{
-  //         x:this.imageobject.width/2,
-  //         y:this.imageobject.height/2
-  //       },
-  //       width:this.imageobject.width,
-  //       height:this.imageobject.height,
-  //       draggable:false
-  //     });
-
-  //     
-  //     this.marginset=document.getElementsByClassName("konvajs-content")[0];
-  //     this.marginset.style["margin"]="auto";
-
-  //     this.imgLayer=new Konva.Layer();
-  //     this.stage.add(this.imgLayer);
-  //     this.imgLayer.setZIndex(0);
-  //     this.imgLayer.add(this.img);
-  //     this.imgLayer.batchDraw();
-
-  //     this.img.on('dbclick',event=>{
-  //       var tr=new Konva.Transformer();
-  //       this.imgLayer.add(tr);
-  //       tr.attachTo(this.img);
-  //       this.img.setAttr('draggable',true);
-  //       this.imgLayer.batchDraw();
-  //       this.img.on('click',event=>{
-  //         tr.detach();
-  //         this.img.setAttr('draggable',false);
-  //         this.imgLayer.batchDraw();
-  //       });
-  //     });
-  //   };
-  //   this.imageobject.src='/assets/images/'+file.item(0).name;
-  // }
-
-  save(){
-    document.getElementById('save').addEventListener(
-      'click', event=> {
-        var dataURL = this.stage.toDataURL();
-        this.downloadURI(dataURL, 'download.png');
-      },
-      false
-    );
+  save()
+  {
+    var dataURL = this.stage.toDataURL();
+    this.downloadURL(dataURL, 'download.png');
   }
 
-  downloadURI(uri,name)//stackoverflow function
+  downloadURL(url,name)
   {
     this.link=document.createElement('a');
     this.link.download=name;
-    this.link.href=uri;
+    this.link.href=url;
     document.body.appendChild(this.link);
     this.link.click();
     document.body.removeChild(this.link);
